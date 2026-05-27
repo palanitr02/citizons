@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-warning text-dark">
+        <h4>Update Person</h4>
+    </div>
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <!-- First Name -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">First Name</label>
+
+                    <input
+                        type="text"
+                        name="firstname"
+                        class="form-control"
+                        value="{{ person.firstname }}"
+                        required
+                    >
+
+                </div>
+
+                <!-- Last Name -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">Last Name</label>
+
+                    <input
+                        type="text"
+                        name="lastname"
+                        class="form-control"
+                        value="{{ person.lastname }}"
+                        required
+                    >
+
+                </div>
+
+                <!-- DOB -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">Date of Birth</label>
+
+                    <input
+                        type="date"
+                        name="dob"
+                        class="form-control"
+                        value="{{ person.dob|date:'Y-m-d' }}"
+                    >
+
+                </div>
+
+                <!-- Gender -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">Gender</label>
+
+                    <select name="gender" class="form-select">
+
+                        <option value="male"
+                            {% if person.gender == "male" %}selected{% endif %}>
+                            Male
+                        </option>
+
+                        <option value="female"
+                            {% if person.gender == "female" %}selected{% endif %}>
+                            Female
+                        </option>
+
+                        <option value="others"
+                            {% if person.gender == "others" %}selected{% endif %}>
+                            Others
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- Aadhaar -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">Aadhaar Number</label>
+
+                    <input
+                        type="text"
+                        name="adhar_num"
+                        class="form-control"
+                        value="{{ person.adhar_num }}"
+                    >
+
+                </div>
+
+                <!-- Father -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">Father</label>
+
+                    <select name="father" class="form-select">
+
+                        <option value="">Select Father</option>
+
+                        {% for f in fathers %}
+
+                        <option value="{{ f.id }}"
+                            {% if person.father and person.father.id == f.id %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ f.firstname }} {{ f.lastname }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <!-- Mother -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">Mother</label>
+
+                    <select name="mother" class="form-select">
+
+                        <option value="">Select Mother</option>
+
+                        {% for m in mothers %}
+
+                        <option value="{{ m.id }}"
+                            {% if person.mother and person.mother.id == m.id %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ m.firstname }} {{ m.lastname }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <!-- Buttons -->
+            <div class="mt-3">
+
+                <button type="submit" class="btn btn-success">
+                    Update
+                </button>
+
+                <a href="{% url 'person_list' %}" class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

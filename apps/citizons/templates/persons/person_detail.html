@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>{{ person.firstname }} {{ person.lastname }}</h2>
+
+<ul class="list-group">
+
+    <li class="list-group-item">
+        Gender: {{ person.gender }}
+    </li>
+
+    <li class="list-group-item">
+        DOB: {{ person.dob }}
+    </li>
+
+    <li class="list-group-item">
+        Aadhaar: {{ person.adhar_num }}
+    </li>
+
+</ul>
+
+{% endblock %}

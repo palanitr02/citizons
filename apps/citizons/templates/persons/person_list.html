@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if persons %}
+
+<table class="table table-bordered">
+
+    {% include 'components/table_header.html' with columns=table_columns %}
+
+</table>
+
+{% else %}
+
+    {% include 'components/empty_state.html' %}
+
+{% endif %}
+
+{% endblock %}
