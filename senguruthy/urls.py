@@ -19,11 +19,11 @@ from django.urls import path, include
 
 urlpatterns = [
 
-    # path('', include('apps.userauth.urls')),
+    path('', include('apps.userauth.urls')),
     # path('', include('apps.marriage.urls')),
     # path('', include('apps.incomes.urls')),
     # path('', include('apps.familys.urls')),
-    # path('', include('apps.citizons.urls')),
+    path('', include('apps.citizons.urls')),
     # path('', include('apps.education.urls')),
 
     

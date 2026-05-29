@@ -1,83 +1,84 @@
-# from django.views import View
-# from django.shortcuts import render, redirect
-# from django.contrib import messages
-
-# from .forms import RegisterForm, LoginForm
-# from .models import AdminLogin
-
-
-# class RegisterView(View):
-
-#     def get(self, request):
-
-#         form = RegisterForm()
-
-#         return render(request, 'register.html', {
-#             'form': form
-#         })
-
-#     def post(self, request):
-
-#         form = RegisterForm(request.POST)
-
-#         if form.is_valid():
-
-#             form.save()
-
-#             messages.success(request, 'User Registered')
-
-#             return redirect('login')
-
-#         return render(request, 'register.html', {
-#             'form': form
-#         })
+from django.views import View
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import AdminLogin
+from django.contrib.auth import authenticate, login, logout
 
 
-# class LoginView(View):
 
-#     def get(self, request):
+# ---------------- SIGNUP ----------------
+class SignupView(View):
 
-#         form = LoginForm()
+    def get(self, request):
+        return render(request, "register.html")
 
-#         return render(request, 'login.html', {
-#             'form': form
-#         })
+    def post(self, request):
 
-#     def post(self, request):
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        role = request.POST.get("role")
 
-#         form = LoginForm(request.POST)
+        # validation
+        if not username or not password:
+            messages.error(request, "All fields are required")
+            return redirect("signup")
 
-#         if form.is_valid():
+        # username exists
+        if AdminLogin.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists")
+            return redirect("signup")
 
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password']
+        # save user
+        AdminLogin.objects.create(
+            username=username,
+            password=password,
+            role=role
+        )
 
-#             try:
-#                 user = AdminLogin.objects.get(
-#                     username=username
-#                 )
+        messages.success(request, "Account created successfully")
+        return redirect("login")
 
-#                 if user.check_password(password):
 
-#                     request.session['user_id'] = user.id
-#                     request.session['username'] = user.username
-#                     request.session['role'] = user.role
+# ---------------- LOGIN ----------------
+class LoginView(View):
 
-#                     if user.role == 'admin':
-#                         return redirect('admin_dashboard')
+    def get(self, request):
+        return render(request, "login.html")
 
-#                     elif user.role == 'staff':
-#                         return redirect('staff_dashboard')
+    def post(self, request):
 
-#                     elif user.role == 'viewer':
-#                         return redirect('viewer_dashboard')
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
-#                 else:
-#                     messages.error(request, 'Invalid Password')
+        try:
+            user = AdminLogin.objects.get(username=username)
 
-#             except AdminLogin.DoesNotExist:
-#                 messages.error(request, 'User Not Found')
+            # check hashed password
+            if user.check_password(password):
 
-#         return render(request, 'login.html', {
-#             'form': form
-#         })
+                request.session['admin_id'] = user.id
+                request.session['username'] = user.username
+                request.session['role'] = user.role
+                
+                messages.success(request, "Login successful")
+                
+                return redirect("person_list")
+
+            else:
+                
+                messages.error(request, "Invalid password")
+                return redirect("login")
+
+        except AdminLogin.DoesNotExist:
+            messages.error(request, "Username not found")
+            
+
+        return redirect("login")
+    
+
+# ---------------- LOGOUT CBV ----------------
+class LogoutView(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect("login")

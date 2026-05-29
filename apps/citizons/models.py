@@ -107,22 +107,6 @@ class BirthRecords(models.Model):
         blank=True
     )
 
-    # father = models.ForeignKey(
-    #     Person,
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True,
-    #     related_name='father_children'
-    # )
-
-    # mother = models.ForeignKey(
-    #     Person,
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True,
-    #     related_name='mother_children'
-    # )
-
     birth_time = models.TimeField(
         null=True,
         blank=True
