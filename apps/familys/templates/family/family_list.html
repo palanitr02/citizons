@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Family List</h2>
+
+        <a href="{% url 'family-create' %}" class="btn btn-primary">
+            Add Family
+        </a>
+    </div>
+
+    {% if page_obj %}
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Ration Card No</th>
+                <th>Family Name</th>
+                <th>District</th>
+                <th>State</th>
+                <th>Pincode</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for family in page_obj %}
+            <tr>
+                <td>{{ family.id }}</td>
+                <td>{{ family.ration_card_no }}</td>
+                <td>{{ family.family_name }}</td>
+                <td>{{ family.district }}</td>
+                <td>{{ family.state }}</td>
+                <td>{{ family.pincode }}</td>
+
+                <td>
+                    <a href="{% url 'family-update' family.id %}"
+                       class="btn btn-sm btn-warning">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'family-detail' family.id %}"
+                       class="btn btn-sm btn-info">
+                        View
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+
+    <div class="alert alert-info">
+        No family records found.
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

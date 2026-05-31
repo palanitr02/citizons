@@ -23,7 +23,7 @@ class PersonListView(ListView):
 
             queryset = queryset.filter(
                 Q(firstname__icontains=query) |
-                Q(lastname__icontains=query) |
+                Q(dob__icontains=query) |
                 Q(adhar_num__icontains=query)
             )
 

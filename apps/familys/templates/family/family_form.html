@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Create Family</h4>
+
+        <a href="{% url 'family-list' %}" class="btn btn-primary">
+            Family list
+        </a>
+    </div>
+
+<div class="card shadow">
+
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <!-- ration_card_number -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        ration_card_number
+                    </label>
+
+                    <input
+                        type="text"
+                        name="ration_card_no"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+                <!-- family_name -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        family_name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="family_name"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+                <!-- District -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        District
+                    </label>
+
+                    <input
+                        type="text"
+                        name="district"
+                        class="form-control"
+                    >
+
+                </div>
+
+
+
+                <!-- State -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        State
+                    </label>
+
+                    <input
+                        type="text"
+                        name="state"
+                        class="form-control"
+                    >
+
+                </div>
+
+                <!-- Pincode -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Pincode
+                    </label>
+
+                    <input
+                        type="number"
+                        name="pincode"
+                        class="form-control"
+                    >
+
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                Save Family
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+</div>
+
+{% endblock %}

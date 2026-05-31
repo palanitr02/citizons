@@ -2,11 +2,48 @@
 
 {% block content %}
 
-{% if persons %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Person List</h2>
+
+        <a href="{% url 'person_create' %}" class="btn btn-primary">
+            Add person
+        </a>
+    </div>
+
+{% if page_obj %}
 
 <table class="table table-bordered">
 
-    {% include 'components/table_header.html' with columns=table_columns %}
+    <thead class="table-dark">
+        <tr>
+            <th>First Name</th>
+            <th>DOB</th>
+            <th>Aadhar No</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for person in page_obj %}
+        <tr>
+            <td>{{ person.firstname }}</td>
+            <td>{{ person.dob }}</td>
+            <td>{{ person.adhar_num }}</td>
+            <td>
+                <a href="{% url 'person_update' person.pk %}"
+                   class="btn btn-sm btn-primary">
+                    Update
+                </a>
+            
+                <a href="{% url 'person_detail' person.pk %}"
+                   class="btn btn-sm btn-primary">
+                    Detail
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 
 </table>
 
@@ -15,5 +52,7 @@
     {% include 'components/empty_state.html' %}
 
 {% endif %}
+
+</div>
 
 {% endblock %}
